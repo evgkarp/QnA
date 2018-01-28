@@ -1,0 +1,15 @@
+h1= @question.title
+
+p= @question.body
+
+ul
+  - @question.answers.each do |answer|
+    li "#{answer.body}"
+
+= form_for [@question, @answer], remote: true do |f|
+  = render 'common/errors', resource: @answer
+
+  = f.label :body, 'Your Answer'
+  = f.text_area :body
+
+  = f.submit 'Post Your Answer'
