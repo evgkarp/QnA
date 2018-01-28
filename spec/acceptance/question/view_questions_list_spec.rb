@@ -5,12 +5,11 @@ feature 'View questions list', %q{
   As an user
   I want to be able to view questions list
 } do
-  given(:questions) { create_list(:question, 2) }
+  given!(:questions) { create_list(:question, 2) }
 
   scenario 'User visit to root page' do
-    questions
     visit questions_path
 
-    expect(find('ul')).to have_content 'MyQuestionTitle'
+    expect(page).to have_content 'MyQuestionTitle'
   end
 end
