@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer) }
+  let(:user) { @user || create(:user) }
+  let(:invalid_user) { create(:user) }
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, question: question, user: user) }
+  let(:answer_2) { create(:answer, question: question, user: invalid_user) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -36,6 +38,38 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         create_invalid_answer
+        expect(response).to redirect_to question_path(assigns(:question))
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+    before { answer }
+    before { answer_2 }
+
+    context 'valid user' do
+      it 'deletes answer' do
+        expect {
+          delete :destroy, params: { id: answer, user: user }
+          }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirect to question show view' do
+        delete :destroy, params: { id: answer, question_id: question }
+        expect(response).to redirect_to question_path(assigns(:question))
+      end
+    end
+
+    context 'invalid user' do
+      it 'can not delete answer' do
+        expect {
+          delete :destroy, params: { id: answer_2, question_id: question }
+          }.to_not change(Answer, :count)
+      end
+
+      it 'redirects to question show view' do
+        delete :destroy, params: { id: answer_2, question_id: question }
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
