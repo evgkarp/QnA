@@ -27,9 +27,10 @@ feature 'Create question', %q{
 
   scenario 'Authenticated user creates an invalid question' do
     sign_in(user)
-
+    visit questions_path
     click_on 'Ask question'
+    click_on 'Create'
 
-    expect(page).to have_content "Body can't be blank"
+    expect(page).to have_content "Title can't be blank"
   end
 end
