@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :question do
-    title "MyQuestionTitle"
+    sequence(:title) { |n| "MyQuestionTitle #{n}" }
     body "MyQuestionBody"
     user
 

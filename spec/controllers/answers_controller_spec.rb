@@ -5,11 +5,10 @@ RSpec.describe AnswersController, type: :controller do
   let(:invalid_user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
-  let(:answer_2) { create(:answer, question: question, user: invalid_user) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
-    sign_in_user
+      sign_in_user
 
       subject(:create_answer) do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
@@ -23,10 +22,14 @@ RSpec.describe AnswersController, type: :controller do
         create_answer
         expect(response).to redirect_to question_path(assigns(:question))
       end
+
+      it 'saves the new answer in the database with valid user' do
+        expect { create_answer }.to change(user.answers, :count).by(1)
+      end
     end
 
     context 'with invalid attributes' do
-    sign_in_user
+      sign_in_user
 
       subject(:create_invalid_answer) do
         post :create, params: { answer: attributes_for(:invalid_answer), question_id: question }
@@ -46,7 +49,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     sign_in_user
     before { answer }
-    before { answer_2 }
+    let!(:second_answer) { create(:answer, question: question, user: invalid_user) }
 
     context 'valid user' do
       it 'deletes answer' do
@@ -64,12 +67,12 @@ RSpec.describe AnswersController, type: :controller do
     context 'invalid user' do
       it 'can not delete answer' do
         expect {
-          delete :destroy, params: { id: answer_2, question_id: question }
+          delete :destroy, params: { id: second_answer, question_id: question }
           }.to_not change(Answer, :count)
       end
 
       it 'redirects to question show view' do
-        delete :destroy, params: { id: answer_2, question_id: question }
+        delete :destroy, params: { id: second_answer, question_id: question }
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end

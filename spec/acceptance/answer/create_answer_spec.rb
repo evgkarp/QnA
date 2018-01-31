@@ -6,9 +6,9 @@ feature 'Create answer', %q{
   I want to be able to answer the question
 } do
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user tries to create an answer' do
+  scenario 'Authenticated user creates an answer' do
     sign_in(user)
 
     visit question_path(question)
@@ -16,19 +16,25 @@ feature 'Create answer', %q{
     fill_in 'Your Answer', with: 'TestContent'
     click_on 'Post Your Answer'
 
-    expect(page).to have_content 'MyQuestionTitle'
-    expect(page).to have_content 'MyQuestionBody'
     expect(page).to have_content 'TestContent'
-    expect(current_path).to eq question_path(question)
+    expect(page).to have_content 'Answer successfully created.'
   end
 
-  scenario 'Non-authenticated user tries to create an answer' do
+  scenario 'Non-authenticated user creates an answer' do
     visit question_path(question)
     fill_in 'Your Answer', with: 'TestContent'
     click_on 'Post Your Answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
     expect(page).to_not have_content 'TestContent'
-    expect(current_path).to eq new_user_session_path
+  end
+
+  scenario 'Authenticated user creates an invalid answer' do
+    sign_in(user)
+
+    visit question_path(question)
+    click_on 'Post Your Answer'
+
+    expect(page).to have_content "Body can't be blank"
   end
 end

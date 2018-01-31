@@ -4,7 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { @user || create(:user) }
   let(:question) { create(:question, user: user) }
   let(:invalid_user) { create(:user) }
-  let(:question_2) { create(:question, user: invalid_user) }
+  let(:second_question) { create(:question, user: invalid_user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -62,6 +62,10 @@ RSpec.describe QuestionsController, type: :controller do
         create_question
         expect(response).to redirect_to question_path(assigns(:question))
       end
+
+      it 'saves the new question in the database with valid user' do
+        expect { create_question }.to change(user.questions, :count).by(1)
+      end
     end
 
     context 'with invalid attributes' do
@@ -83,7 +87,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     sign_in_user
     before { question }
-    before { question_2 }
+    before { second_question }
 
     context 'valid user' do
       it 'deletes question' do
@@ -100,11 +104,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'invalid user' do
       it 'can not delete question' do
-        expect { delete :destroy, params: { id: question_2 } }.to_not change(Question, :count)
+        expect { delete :destroy, params: { id: second_question } }.to_not change(Question, :count)
       end
 
       it 'redirects to index view' do
-        delete :destroy, params: { id: question_2 }
+        delete :destroy, params: { id: second_question }
         expect(response).to redirect_to questions_path
       end
     end
