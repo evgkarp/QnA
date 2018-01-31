@@ -1,18 +1,18 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:show, :destroy]
-  before_action :set_question, only: [:new, :create]
+  before_action :set_answer, only: [:destroy]
+  before_action :set_question, only: [:create]
 
   def create
     @answer = current_user.answers.build(answer_params)
     @answer.question = @question
-    @answer.save
+    flash[:notice] = 'Answer successfully created.' if @answer.save
     redirect_to @question
   end
 
   def destroy
     @question = @answer.question
-    if verify_user
+    if current_user.author_of?(@answer)
       @answer.destroy
       redirect_to @question, notice: 'Answer successfully deleted.'
     else
@@ -32,9 +32,5 @@ class AnswersController < ApplicationController
 
   def set_question
     @question = Question.find(params[:question_id])
-  end
-
-  def verify_user
-    current_user.author_of?(@answer)
   end
 end

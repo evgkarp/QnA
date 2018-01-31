@@ -3,13 +3,15 @@ require 'rails_helper'
 feature 'View questions list', %q{
   In order to find expected question
   As an user
-  I want to be able to view questions list
+  I want to be able to see list of questions
 } do
-  given!(:questions) { create_list(:question, 2) }
+  given!(:question) { create(:question) }
+  given!(:second_question) { create(:question) }
 
-  scenario 'User visit to root page' do
+  scenario 'User sees list of questions' do
     visit questions_path
 
-    expect(page).to have_content 'MyQuestionTitle'
+    expect(page).to have_content question.title
+    expect(page).to have_content second_question.title
   end
 end

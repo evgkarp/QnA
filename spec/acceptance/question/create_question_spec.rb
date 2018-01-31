@@ -18,10 +18,18 @@ feature 'Create question', %q{
     expect(page).to have_content 'Question successfully created.'
   end
 
-  scenario 'Non-authenticated user tries to create a question' do
+  scenario 'Non-authenticated creates a question' do
     visit questions_path
     click_on 'Ask question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
+
+  scenario 'Authenticated user creates an invalid question' do
+    sign_in(user)
+
+    click_on 'Ask question'
+
+    expect(page).to have_content "Body can't be blank"
   end
 end

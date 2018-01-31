@@ -1,4 +1,8 @@
 = form_for @question do |f|
+  - @question.errors.full_messages.each do |message|
+    = message
+
+
   = f.label :title
   = f.text_field :title
 

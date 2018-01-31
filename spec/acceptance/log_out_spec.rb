@@ -7,13 +7,12 @@ feature 'User log out', %q{
 } do
   given(:user) { create(:user) }
 
-  scenario 'Authenticated user tries to log out' do
+  scenario 'Authenticated user does log out' do
     sign_in(user)
 
     visit root_path
     click_on 'Log out'
 
     expect(page).to have_content('Signed out successfully.')
-    expect(current_path).to eq root_path
   end
 end

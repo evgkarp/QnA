@@ -5,7 +5,7 @@ feature 'User sign up', %q{
   As an User
   I want to be able to sign up
 } do
-  scenario 'Non-authenticated user tries to sign up' do
+  scenario 'Non-authenticated user does sign up' do
     visit root_path
     click_on 'Sign Up'
     fill_in 'Email', with: 'test@test.com'
@@ -14,6 +14,5 @@ feature 'User sign up', %q{
 
     click_on 'Sign up'
     expect(page).to have_content('Welcome! You have signed up successfully.')
-    expect(current_path).to eq root_path
   end
 end

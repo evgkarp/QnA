@@ -11,7 +11,7 @@ ul
         li= button_to "Delete", answer, method: :delete, data: { confirm: 'Are you sure?' }
 
 
-= form_for [@question, @answer], remote: true do |f|
+= form_for [@question, @answer] do |f|
   = render 'common/errors', resource: @answer
 
   = f.label :body, 'Your Answer'
