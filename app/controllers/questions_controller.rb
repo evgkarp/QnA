@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_question, only: %i[show destroy]
 
   def index
     @questions = Question.all
@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if verify_user
+    if current_user.author_of?(@question)
       @question.destroy
       redirect_to questions_path, notice: 'Question successfully deleted.'
     else
@@ -41,9 +41,5 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
-  end
-
-  def verify_user
-    current_user.author_of?(@question)
   end
 end

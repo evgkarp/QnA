@@ -54,10 +54,6 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, params: { question: attributes_for(:question) }
       end
 
-      it 'saves the new question in the database' do
-        expect { create_question }.to change(Question, :count).by(1)
-      end
-
       it 'redirects to show view' do
         create_question
         expect(response).to redirect_to question_path(assigns(:question))
@@ -92,7 +88,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'valid user' do
       it 'deletes question' do
         expect {
-          delete :destroy, params: { id: question, user: user }
+          delete :destroy, params: { id: question }
           }.to change(Question, :count).by(-1)
       end
 
