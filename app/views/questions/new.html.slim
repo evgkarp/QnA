@@ -1,7 +1,5 @@
 = form_for @question do |f|
-  - @question.errors.full_messages.each do |message|
-    = message
-
+  = render 'common/errors', resource: @question
 
   = f.label :title
   = f.text_field :title
