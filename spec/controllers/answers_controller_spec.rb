@@ -41,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         create_invalid_answer
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to render_template 'questions/show'
       end
     end
   end

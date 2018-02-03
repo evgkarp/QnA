@@ -2,7 +2,6 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_answer, only: [:destroy]
   before_action :set_question, only: [:create]
-  layout 'questions', only: [:create]
 
   def create
     @answer = current_user.answers.build(answer_params)
