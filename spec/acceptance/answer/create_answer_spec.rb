@@ -34,7 +34,7 @@ feature 'Create answer', %q{
 
     visit question_path(question)
     click_on 'Post Your Answer'
-
+    # save_and_open_page
     expect(page).to have_content "Body can't be blank"
   end
 end
