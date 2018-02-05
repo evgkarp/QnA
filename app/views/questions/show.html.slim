@@ -2,19 +2,12 @@ h1= @question.title
 
 p= @question.body
 
-ul
-  - @question.answers.each do |answer|
-    li "#{answer.body}"
+.answers= render 'answers'
 
-    - if current_user&.author_of?(answer)
-      ul
-        li= button_to "Delete", answer, method: :delete, data: { confirm: 'Are you sure?' }
-
-
-= form_for [@question, @answer] do |f|
+= form_for [@question, @answer], remote: true do |f|
   = render 'common/errors', resource: @answer
 
   = f.label :body, 'Your Answer'
   = f.text_area :body
-
+  = hidden_field_tag :authenticity_token, form_authenticity_token
   = f.submit 'Post Your Answer'
