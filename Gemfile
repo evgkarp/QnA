@@ -14,7 +14,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'coffee-rails', '~> 4.2'
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
@@ -26,14 +26,18 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'slim-rails'
 gem 'devise'
+gem 'jquery-rails'
+# gem 'jquery-turbolinks'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver', '~> 2.53.4'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'rubocop'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
 end
 
 group :development do

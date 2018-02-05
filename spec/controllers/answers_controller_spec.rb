@@ -11,7 +11,9 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       subject(:create_answer) do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        post :create, params: {
+          answer: attributes_for(:answer), question_id: question, format: :js
+        }
       end
 
       it 'saves the new answer in the database' do
@@ -32,7 +34,9 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       subject(:create_invalid_answer) do
-        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question }
+        post :create, params: {
+          answer: attributes_for(:invalid_answer), question_id: question, format: :js
+        }
       end
 
       it 'does not save the answer' do
