@@ -34,9 +34,9 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   # gem 'selenium-webdriver', '~> 2.53.4'
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rubocop'
-  gem 'capybara-webkit'
+  # gem 'capybara-webkit'
   gem 'database_cleaner'
 end
 
@@ -51,6 +51,8 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'launchy'
+  gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
