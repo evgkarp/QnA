@@ -20,9 +20,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { create_answer }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to question show view' do
+      it 'renders create template' do
         create_answer
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to render_template :create
       end
 
       it 'saves the new answer in the database with valid user' do
@@ -43,9 +43,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { create_invalid_answer }.to_not change(Answer, :count)
       end
 
-      it 're-renders new view' do
+      it 'renders create template' do
         create_invalid_answer
-        expect(response).to render_template 'questions/show'
+        expect(response).to render_template :create
       end
     end
   end
