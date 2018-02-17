@@ -9,5 +9,6 @@ p= @question.body
   = render 'common/errors', resource: @answer
 
   = f.label :body, 'Your Answer'
+  .answer-errors
   = f.text_area :body
   = f.submit 'Post Your Answer'
