@@ -6,10 +6,7 @@ class AnswersController < ApplicationController
   def create
     @answer = current_user.answers.build(answer_params)
     @answer.question = @question
-    flash[:notice] = 'Answer successfully created.' if @answer.save
-    # respond_to do |format|
-    #   format.js
-    # end
+    @answer.save
   end
 
   def destroy
