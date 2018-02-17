@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Create answer', %q{
   In order to help to somebody
@@ -29,12 +29,12 @@ feature 'Create answer', %q{
   #   expect(page).to_not have_content 'TestContent'
   # end
 
-  # scenario 'Authenticated user creates an invalid answer', js: true do
-  #   sign_in(user)
+  scenario 'Authenticated user creates an invalid answer', js: true do
+    sign_in(user)
 
-  #   visit question_path(question)
-  #   click_on 'Post Your Answer'
+    visit question_path(question)
+    click_on 'Post Your Answer'
 
-  #   expect(page).to have_content "Body can't be blank"
-  # end
+    expect(page).to have_content "Body can't be blank"
+  end
 end
