@@ -58,26 +58,26 @@ RSpec.describe AnswersController, type: :controller do
     context 'valid user' do
       it 'deletes answer' do
         expect {
-          delete :destroy, params: { question_id: question, id: answer }
+          delete :destroy, params: { question_id: question, id: answer, format: :js }
           }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to question show view' do
-        delete :destroy, params: { id: answer, question_id: question }
-        expect(response).to redirect_to question_path(assigns(:question))
+      it 'renders update template' do
+        delete :destroy, params: { id: answer, question_id: question, format: :js }
+        expect(response).to render_template :destroy
       end
     end
 
     context 'invalid user' do
       it 'can not delete answer' do
         expect {
-          delete :destroy, params: { id: second_answer, question_id: question }
+          delete :destroy, params: { id: second_answer, question_id: question, format: :js }
           }.to_not change(Answer, :count)
       end
 
-      it 'redirects to question show view' do
-        delete :destroy, params: { id: second_answer, question_id: question }
-        expect(response).to redirect_to question_path(assigns(:question))
+      it 'renders update template' do
+        delete :destroy, params: { id: second_answer, question_id: question, format: :js }
+        expect(response).to render_template :destroy
       end
     end
   end
@@ -109,7 +109,7 @@ RSpec.describe AnswersController, type: :controller do
       expect(answer.body).to eq 'my new body'
     end
 
-    it 'render update template' do
+    it 'renders update template' do
       update_answer
       expect(response).to render_template :update
     end
