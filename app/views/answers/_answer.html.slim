@@ -3,7 +3,8 @@ p= "#{answer.body}"
 - if current_user&.author_of?(answer)
   p= link_to "Edit", '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-  p= form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}", class: 'edit-answer'} do |f|
+  p= form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}",
+    class: 'edit-answer' } do |f|
 
     = f.label :body, 'Your Answer'
     .answer-errors
