@@ -33,6 +33,7 @@ feature 'Answer editing', %q{
         expect(page).to_not have_selector 'textarea'
       end
     end
+
     scenario "sees link 'Edit'", js: true do
       within '.answers' do
         expect(page).to have_link 'Edit'
