@@ -1,20 +1,21 @@
-p= link_to "#{question.title}", question_path(question)
+div id= 'question-id-#{question.id}'
+  p= link_to "#{question.title}", question_path(question)
 
-- if current_user&.author_of?(question)
-  p= link_to "Edit", '', class: 'edit-question-link', data: { question_id: question.id }
+  - if current_user&.author_of?(question)
+    p= link_to "Edit", '', class: 'edit-question-link', data: { question_id: question.id }
 
-  = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
-class: 'edit-question' } do |f|
+    = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
+      class: 'edit-question' } do |f|
 
-    = render 'common/errors', resource: question
+      = render 'common/errors', resource: question
 
-    = f.label :title
-    .question-errors
-    = f.text_field :title
+      = f.label :title
+      .question-errors
+      = f.text_field :title
 
-    = f.label :body
-    = f.text_area :body
+      = f.label :body
+      = f.text_area :body
 
-    = f.submit 'Save'
+      = f.submit 'Save'
 
-  p= link_to "Delete", question, method: :delete, data: { confirm: 'Are you sure?' }
+    p= link_to "Delete", question, remote: true, method: :delete, data: { confirm: 'Are you sure?' }
