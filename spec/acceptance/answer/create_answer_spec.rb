@@ -20,14 +20,14 @@ feature 'Create answer', %q{
     end
   end
 
-  # scenario 'Non-authenticated user creates an answer', js: true do
-  #   visit question_path(question)
-  #   fill_in 'Your Answer', with: 'TestContent'
-  #   click_on 'Post Your Answer'
+  scenario 'Non-authenticated user creates an answer' do
+    visit question_path(question)
+    fill_in 'Your Answer', with: 'TestContent'
+    click_on 'Post Your Answer'
 
-  #   expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  #   expect(page).to_not have_content 'TestContent'
-  # end
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'TestContent'
+  end
 
   scenario 'Authenticated user creates an invalid answer', js: true do
     sign_in(user)

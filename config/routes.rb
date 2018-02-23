@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :questions do
-    resources :answers, shallow: true
+    resources :answers, only: %i[create update destroy]
   end
 
   get 'questions/index'

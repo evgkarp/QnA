@@ -12,7 +12,7 @@ RSpec.describe AnswersController, type: :controller do
 
       subject(:create_answer) do
         post :create, params: {
-          answer: attributes_for(:answer), question_id: question, format: :js
+          question_id: question, answer: attributes_for(:answer), format: :js
         }
       end
 
@@ -58,7 +58,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'valid user' do
       it 'deletes answer' do
         expect {
-          delete :destroy, params: { id: answer }
+          delete :destroy, params: { question_id: question, id: answer }
           }.to change(Answer, :count).by(-1)
       end
 
@@ -79,6 +79,39 @@ RSpec.describe AnswersController, type: :controller do
         delete :destroy, params: { id: second_answer, question_id: question }
         expect(response).to redirect_to question_path(assigns(:question))
       end
+    end
+  end
+
+  describe 'PATCH #update' do
+    sign_in_user
+    before { answer }
+    subject(:update_answer) do
+        patch :update, params: {
+          id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        }
+      end
+
+    it 'assings the requested answer to @answer' do
+      update_answer
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'assigns the question' do
+      update_answer
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'changes answer attributes' do
+      patch :update, params: {
+        id: answer, question_id: question, answer: { body: 'my new body'}, format: :js
+      }
+      answer.reload
+      expect(answer.body).to eq 'my new body'
+    end
+
+    it 'render update template' do
+      update_answer
+      expect(response).to render_template :update
     end
   end
 end
