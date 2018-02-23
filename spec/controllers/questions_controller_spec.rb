@@ -92,24 +92,26 @@ RSpec.describe QuestionsController, type: :controller do
     context 'valid user' do
       it 'deletes question' do
         expect {
-          delete :destroy, params: { id: question }
+          delete :destroy, params: { id: question, format: :js }
           }.to change(Question, :count).by(-1)
       end
 
-      it 'redirect to index view' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to questions_path
+      it 'renders destroy template' do
+        delete :destroy, params: { id: question, format: :js }
+        expect(response).to render_template :destroy
       end
     end
 
     context 'invalid user' do
       it 'can not delete question' do
-        expect { delete :destroy, params: { id: second_question } }.to_not change(Question, :count)
+        expect { delete :destroy, params: {
+          id: second_question, format: :js
+          } }.to_not change(Question, :count)
       end
 
-      it 'redirects to index view' do
-        delete :destroy, params: { id: second_question }
-        expect(response).to redirect_to questions_path
+      it 'renders destroy template' do
+        delete :destroy, params: { id: second_question, format: :js }
+        expect(response).to render_template :destroy
       end
     end
   end
