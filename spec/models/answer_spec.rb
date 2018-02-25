@@ -6,4 +6,5 @@ RSpec.describe Answer, type: :model do
   it { should have_db_column(:question_id) }
   it { should belong_to(:question) }
   it { should belong_to(:user) }
+  it { should have_db_column(:best_answer) }
 end
