@@ -1,16 +1,24 @@
 div id= 'answer-id-#{answer.id}'
-  p= "#{answer.body}"
+  div class=('best-answer' if answer.best_answer)
+    = "#{answer.body}"
 
-  - if current_user&.author_of?(answer)
-    p= link_to "Edit", '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    - if current_user&.author_of?(answer)
+      p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-    p= form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}",
-      class: 'edit-answer' } do |f|
+      p= form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}",
+        class: 'edit-answer' } do |f|
 
-      = f.label :body, 'Your Answer'
-      .answer-errors
-      = f.text_area :body
-      = f.submit 'Save'
+        = f.label :body, 'Your Answer'
+        .answer-errors
+        = f.text_area :body
+        = f.submit 'Save'
 
-    p= link_to "Delete", [@question, answer], remote: true, method: :delete,
-      data: { confirm: 'Are you sure?' }
+      p= link_to 'Delete', [@question, answer], remote: true, method: :delete,
+        data: { confirm: 'Are you sure?' }
+
+    - if current_user&.author_of?(@question)
+      p= form_for [@question, answer], remote: true do |f|
+
+        = f.check_box("best_answer", {}, :true, :false)
+        = f.label :best_answer
+        = f.submit 'Choice'
