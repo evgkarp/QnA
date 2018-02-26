@@ -7,6 +7,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:second_question) { create(:question, user: invalid_user) }
   let(:answer) { create(:answer, question: question, user: user) }
   let(:second_answer) { create(:answer, question: question, user: invalid_user) }
+  let(:third_answer) { create(:answer, question: second_question, user: invalid_user) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -137,26 +138,6 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq 'my new body'
       end
 
-      it 'changes best_answer to true' do
-        patch :update, params: {
-          id: answer, question_id: question,
-          answer: { body: 'my new body', best_answer: true }, format: :js
-        }
-        answer.reload
-
-        expect(answer.best_answer).to eq true
-
-        patch :update, params: {
-          id: second_answer, question_id: question,
-          answer: { body: 'my new body', best_answer: true }, format: :js
-        }
-        answer.reload
-        second_answer.reload
-
-        expect(answer.best_answer).to eq false
-        expect(second_answer.best_answer).to eq true
-      end
-
       it 'renders update template' do
         update_answer
         expect(response).to render_template :update
@@ -165,32 +146,99 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       sign_in_user
-      let(:second_answer) { create(:answer, question: second_question, user: invalid_user) }
+      before { third_answer }
       subject(:update_answer_with_invalid_attributes) do
           patch :update, params: {
-            id: second_answer, question_id: second_question,
+            id: third_answer, question_id: second_question,
             answer: attributes_for(:invalid_answer), format: :js
           }
       end
 
       it 'does not change body of answer' do
         update_answer_with_invalid_attributes
-        second_answer.reload
-        expect(second_answer.body).to_not eq nil
-      end
-
-      it 'does not change best_answer to true' do
-        patch :update, params: {
-          id: second_answer, question_id: second_question,
-          answer: { body: 'my new body', best_answer: true }, format: :js
-        }
-        second_answer.reload
-        expect(second_answer.best_answer).to eq false
+        third_answer.reload
+        expect(third_answer.body).to_not eq nil
       end
 
       it 'renders update template' do
         update_answer_with_invalid_attributes
         expect(response).to render_template :update
+      end
+    end
+  end
+
+  describe 'PATCH #make_best' do
+    context 'with valid attributes' do
+      sign_in_user
+      before do
+        answer
+        second_answer
+      end
+      subject(:make_answer_best) do
+        patch :make_best, params: {
+          id: answer, question_id: question,
+          answer: { best_answer: true }, format: :js
+        }
+      end
+
+      it 'assings the requested answer to @answer' do
+        make_answer_best
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'assigns the question' do
+        make_answer_best
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes best_answer to true' do
+        make_answer_best
+        answer.reload
+
+        expect(answer.best_answer).to eq true
+
+        patch :make_best, params: {
+          id: second_answer, question_id: question,
+          answer: { best_answer: true }, format: :js
+        }
+        answer.reload
+        second_answer.reload
+
+        expect(answer.best_answer).to eq false
+        expect(second_answer.best_answer).to eq true
+      end
+
+      it 'renders make_best template' do
+        make_answer_best
+        expect(response).to render_template :make_best
+      end
+    end
+
+    context 'with invalid attributes' do
+      sign_in_user
+      before { third_answer }
+      subject(:make_answer_best_with_invalid_attributes) do
+          patch :make_best, params: {
+            id: third_answer, question_id: second_question,
+            answer: { body: 'my new body', best_answer: true }, format: :js
+          }
+      end
+
+      it 'does not change body of answer' do
+        make_answer_best_with_invalid_attributes
+        third_answer.reload
+        expect(third_answer.body).to_not eq nil
+      end
+
+      it 'does not change best_answer to true' do
+        make_answer_best_with_invalid_attributes
+        third_answer.reload
+        expect(third_answer.best_answer).to eq false
+      end
+
+      it 'renders make_best template' do
+        make_answer_best_with_invalid_attributes
+        expect(response).to render_template :make_best
       end
     end
   end

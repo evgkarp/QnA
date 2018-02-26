@@ -41,6 +41,7 @@ feature 'Choice best answer', %q{
         expect(page).to_not have_css('.best-answer')
         expect(page).to have_unchecked_field('answer_best_answer')
       end
+      expect(find('.answers').first('div')).to have_css('.best-answer')
     end
   end
 

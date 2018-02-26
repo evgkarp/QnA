@@ -3,7 +3,7 @@ h1= @question.title
 p= @question.body
 
 .answers
-  = render @question.answers_ordered_by_best
+  = render @question.answers.ordered_by_best
 
 = form_for [@question, @answer], remote: true do |f|
 

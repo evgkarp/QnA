@@ -4,13 +4,12 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true, length: { minimum: 10 }
 
+  scope :ordered_by_best, -> { order(best_answer: :desc) }
+
   def set_only_one_best_answer
-    best_answers = self.class.where(best_answer: true)
-    best_answers&.each do |answer|
-      if answer != self
-        answer.best_answer = false
-        answer.save
-      end
+    transaction do
+      question.answers.update_all(best_answer: false)
+      update!(best_answer: true)
     end
   end
 end
