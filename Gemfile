@@ -28,6 +28,8 @@ gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
 # gem 'jquery-turbolinks'
+gem 'carrierwave'
+gem 'cocoon'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

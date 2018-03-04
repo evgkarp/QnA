@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
 
   scope :ordered_by_best, -> { order(best_answer: :desc) }
 
-  def set_only_one_best_answer
+  def set_best
     transaction do
       question.answers.update_all(best_answer: false)
       update!(best_answer: true)
