@@ -29,6 +29,7 @@ gem 'devise'
 gem 'jquery-rails'
 # gem 'jquery-turbolinks'
 gem 'carrierwave'
+gem 'remotipart'
 gem 'cocoon'
 
 group :development, :test do
