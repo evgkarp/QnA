@@ -4,7 +4,7 @@
     <% end %>
 <% else %>
     $('.questions').html('<%= j render @question %>');
-    $('.edit-question-link').click(function(e) {
+    $('.edit-question').click(function(e) {
         e.preventDefault();
         $(this).hide();
         question_id = $(this).data('questionId');

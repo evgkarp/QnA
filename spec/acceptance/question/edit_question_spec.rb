@@ -37,7 +37,7 @@ feature 'Question editing', %q{
     end
   end
 
-  scenario "edits other user's question", js: true do
+  scenario "Authenticated user edits other user's question", js: true do
     sign_in(second_user)
     visit questions_path
 
