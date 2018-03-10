@@ -15,7 +15,15 @@ div id= 'question-id-#{question.id}'
 
       = f.label :body
       = f.text_area :body
+      = render 'common/file_fields', f: f
 
+      - if question.attachments.present?
+        p Attachments:
+        ul
+          - question.attachments.each do |a|
+            li id= 'attachment-id-#{a.id}'
+              = link_to a.file.identifier, a.file.url
+              p= link_to 'Delete attachment', a, remote: true, method: :delete
       = f.submit 'Save'
 
     p= link_to "Delete", question, remote: true, method: :delete, data: { confirm: 'Are you sure?' }

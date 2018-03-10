@@ -5,7 +5,8 @@ p= @question.body
 p Attachments:
 ul
   - @question.attachments.each do |a|
-    li= link_to a.file.identifier, a.file.url
+    li
+      = link_to a.file.identifier, a.file.url
 
 .answers
   = render @question.answers.ordered_by_best
@@ -15,9 +16,5 @@ ul
   = f.label :body, 'Your Answer'
   .answer-errors
   = f.text_area :body
-  p Attachments:
-  div
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+  = render 'common/file_fields', f: f
   = f.submit 'Post Your Answer'

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :attachments
+
   get 'questions/index'
 
   root 'questions#index'

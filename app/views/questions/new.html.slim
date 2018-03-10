@@ -6,10 +6,5 @@
 
   = f.label :body
   = f.text_area :body
-  p Attachments:
-  div
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
-
+  = render 'common/file_fields', f: f
   = f.submit 'Create'
