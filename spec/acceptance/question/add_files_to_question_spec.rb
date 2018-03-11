@@ -8,7 +8,6 @@ feature 'Add files to question', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given(:second_user) { create(:user) }
 
   describe 'Author of new question' do
     background do

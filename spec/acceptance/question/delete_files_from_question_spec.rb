@@ -3,7 +3,7 @@ require_relative '../acceptance_helper'
 feature 'Delete files from question', %q{
   In order to be able to delete files from my question
   As an author of question
-  I want to be able delete files files
+  I want to be able delete files
 } do
 
   given(:user) { create(:user) }
@@ -26,18 +26,18 @@ feature 'Delete files from question', %q{
     end
   end
 
-  scenario "Authenticated user can not see link to delete file from other user's question" do
+  scenario "Authenticated user can not see link Delete attachment from other user's question" do
     sign_in(second_user)
     visit questions_path
 
     expect(page).to_not have_link 'Edit'
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_link 'Delete attachment'
   end
 
-  scenario "Unauthenticated user can not see link to delete file from other user's question" do
+  scenario "Unauthenticated user can not see link Delete attachment from other user's question" do
     visit questions_path
 
     expect(page).to_not have_link 'Edit'
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_link 'Delete attachment'
   end
 end
