@@ -14,13 +14,12 @@ feature 'Delete files from question', %q{
   describe 'Author of question' do
     before do
       sign_in(user)
-      visit questions_path
-      click_on 'Edit'
+      visit question_path(question)
+      click_on 'Edit question'
     end
 
     scenario 'deletes file when he edits question', js: true do
       click_on 'Delete attachment'
-      click_on question.title
 
       expect(page).to_not have_content attachment.file.identifier
     end
@@ -28,16 +27,16 @@ feature 'Delete files from question', %q{
 
   scenario "Authenticated user can not see link Delete attachment from other user's question" do
     sign_in(second_user)
-    visit questions_path
+    visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit question'
     expect(page).to_not have_link 'Delete attachment'
   end
 
   scenario "Unauthenticated user can not see link Delete attachment from other user's question" do
-    visit questions_path
+    visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit question'
     expect(page).to_not have_link 'Delete attachment'
   end
 end

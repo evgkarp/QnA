@@ -20,7 +20,7 @@ feature 'Delete files from answer', %q{
 
     scenario 'deletes file when he edits answer', js: true do
       within '.answers' do
-        click_on 'Edit'
+        click_on 'Edit answer'
         click_on 'Delete attachment'
 
         expect(page).to_not have_content attachment.file.identifier
@@ -33,7 +33,7 @@ feature 'Delete files from answer', %q{
     visit question_path(question)
 
     within '.answers' do
-      expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_link 'Edit answer'
       expect(page).to_not have_link 'Delete attachment'
     end
   end
@@ -42,7 +42,7 @@ feature 'Delete files from answer', %q{
     visit question_path(question)
 
     within '.answers' do
-      expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_link 'Edit answer'
       expect(page).to_not have_link 'Delete attachment'
     end
   end

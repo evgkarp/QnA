@@ -13,7 +13,7 @@ feature 'Answer editing', %q{
   scenario 'Unauthenticated user edits an answer', js: true do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_content 'Edit answer'
   end
 
   describe 'Authenticated user' do
@@ -23,7 +23,7 @@ feature 'Answer editing', %q{
     end
 
     scenario 'edits his answer', js: true do
-      click_on 'Edit'
+      click_on 'Edit answer'
       within '.answers' do
         fill_in 'Your Answer', with: 'edited answer'
         click_on 'Save'
@@ -34,9 +34,9 @@ feature 'Answer editing', %q{
       end
     end
 
-    scenario "sees link 'Edit'", js: true do
+    scenario "sees link 'Edit answer'", js: true do
       within '.answers' do
-        expect(page).to have_link 'Edit'
+        expect(page).to have_button 'Edit answer'
       end
     end
   end
@@ -46,7 +46,7 @@ feature 'Answer editing', %q{
     visit question_path(question)
 
     within '.answers' do
-      expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_content 'Edit answer'
     end
   end
 end

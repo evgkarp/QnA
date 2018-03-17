@@ -3,17 +3,22 @@ html
     title Qna
     = csrf_meta_tags
 
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"
+
     = stylesheet_link_tag    'application'
     = javascript_include_tag 'application'
 
   body
-    p.notice= notice
-    p.alert= alert
+    = render 'common/navbar'
+    .container
+      .row
+        .col
+          p.notice= notice
+          p.alert= alert
+          = yield
 
-    p= link_to "Sign Up", new_user_registration_path
-    - if user_signed_in?
-      p= link_to "Log out", destroy_user_session_path, method: :delete
-    - else
-      p= link_to "Log In", new_user_session_path
+      footer
+        = render 'common/footer'
 
-    = yield

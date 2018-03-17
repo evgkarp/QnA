@@ -1,16 +1,26 @@
-h1= @question.title
+.question
+  = render @question
 
-p= @question.body
+div class= "row"
+  .col
+    h4 Answers:
+    ul.answers
+      = render @question.answers.ordered_by_best
 
-= render 'common/attachments', resource: @question
+.row
+  div class="col col-lg-3"
+    = form_for [@question, @answer], remote: true, html: { class: 'form-inline' } do |f|
 
-.answers
-  = render @question.answers.ordered_by_best
+      .row
+        .col
+          = f.label :body, 'Your Answer'
+          .answer-errors
+          = f.text_area :body, class: "form-control"
 
-= form_for [@question, @answer], remote: true do |f|
+      .row
+        .col
+          = render 'common/file_fields', f: f
 
-  = f.label :body, 'Your Answer'
-  .answer-errors
-  = f.text_area :body
-  = render 'common/file_fields', f: f
-  = f.submit 'Post Your Answer'
+      .row
+        .col
+          = f.submit 'Post Your Answer'
