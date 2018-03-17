@@ -39,31 +39,33 @@ feature 'Add files to question', %q{
   describe 'Author of existing question' do
     before do
       sign_in(user)
-      visit questions_path
-      click_on 'Edit'
+      visit question_path(question)
+      click_on 'Edit question'
     end
 
     scenario 'adds one file when he edits question', js: true do
-      click_on 'add attachment'
+      within '.question' do
+        click_on 'add attachment'
 
-      attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
-      click_on 'Save'
-      click_on question.title
+        attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+        click_on 'Save'
 
-      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+        expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+      end
     end
 
     scenario 'adds two files when he edits question', js: true do
-      click_on 'add attachment'
-      click_on 'add attachment'
-      inputs = all('input[type="file"]')
-      inputs[0].set("#{Rails.root}/spec/spec_helper.rb")
-      inputs[1].set("#{Rails.root}/spec/rails_helper.rb")
-      click_on 'Save'
-      click_on question.title
+      within '.question' do
+        click_on 'add attachment'
+        click_on 'add attachment'
+        inputs = all('input[type="file"]')
+        inputs[0].set("#{Rails.root}/spec/spec_helper.rb")
+        inputs[1].set("#{Rails.root}/spec/rails_helper.rb")
+        click_on 'Save'
 
-      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
-      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+        expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+      end
     end
   end
 end

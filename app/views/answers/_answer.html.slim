@@ -1,28 +1,43 @@
-div id= 'answer-id-#{answer.id}'
-  div class=('best-answer' if answer.best_answer)
-    = "#{answer.body}"
-    = render 'common/attachments', resource: answer
-
-    - if current_user&.author_of?(answer)
-      p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-
-      p= form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}",
-        class: 'edit-answer' } do |f|
-
-        = f.label :body, 'Your Answer'
-        .answer-errors
-        = f.text_area :body
-        = render 'common/file_fields', f: f
-        = render 'common/attachments', resource: answer, edit: true
-
-        = f.submit 'Save'
-
-      p= link_to 'Delete', [@question, answer], remote: true, method: :delete,
-        data: { confirm: 'Are you sure?' }
+li id= 'answer-id-#{answer.id}'
+  .row
+    div class=(answer.best_answer ? 'best-answer col col-lg-9' : 'col col-lg-9')
+      = "#{answer.body}"
 
     - if current_user&.author_of?(@question)
-      p= form_for [@question, answer], url: make_best_question_answer_path(@question, answer), remote: true do |f|
+    div class="col col-lg-3"
+      = form_for [@question, answer], url: make_best_question_answer_path(@question, answer), remote: true do |f|
 
         = f.check_box('best_answer', {}, :true, :false)
         = f.label :best_answer
         = f.submit 'Choice'
+
+  .row
+    .col
+      = render 'common/attachments', resource: answer
+
+  .row
+    - if current_user&.author_of?(answer)
+      div class="col col-lg-2"
+        = button_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+
+      = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}",
+        class: 'edit-answer form-inline' } do |f|
+
+        .row
+          .col
+            = f.label :body, 'Your Answer'
+            .answer-errors
+            = f.text_area :body, class: "form-control"
+        .row
+          .col
+            = render 'common/file_fields', f: f
+
+        .row
+          .col
+            = f.submit 'Save'
+
+      div class="col col-lg-2"
+        = button_to 'Delete answer', [@question, answer], remote: true, method: :delete,
+        data: { confirm: 'Are you sure?' }
+
+

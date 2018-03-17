@@ -10,37 +10,45 @@ feature 'Question editing', %q{
   given!(:question) { create(:question, user: user) }
 
   scenario 'Unauthenticated user edits an question', js: true do
-    visit questions_path
+    visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    within '.question' do
+      expect(page).to_not have_content 'Edit question'
+    end
   end
 
   describe 'Authenticated user' do
     before do
       sign_in(user)
-      visit questions_path
+      visit question_path(question)
     end
 
     scenario 'edits his question', js: true do
-      click_on 'Edit'
-      fill_in 'Title', with: 'edited question title'
-      fill_in 'Body', with: 'edited question body'
-      click_on 'Save'
+      within '.question' do
+        click_on 'Edit question'
+        fill_in 'Title', with: 'edited question title'
+        fill_in 'Body', with: 'edited question body'
+        click_on 'Save'
 
-      expect(page).to_not have_content question.body
-      expect(page).to have_content 'edited question title'
-      expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_content question.body
+        expect(page).to have_content 'edited question title'
+        expect(page).to_not have_selector 'textarea'
+      end
     end
 
-    scenario "sees link 'Edit'", js: true do
-      expect(page).to have_link 'Edit'
+    scenario "sees link 'Edit question'", js: true do
+      within '.question' do
+        expect(page).to have_button 'Edit question'
+      end
     end
   end
 
   scenario "Authenticated user edits other user's question", js: true do
     sign_in(second_user)
-    visit questions_path
+    visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    within '.question' do
+      expect(page).to_not have_content 'Edit question'
+    end
   end
 end

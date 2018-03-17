@@ -13,7 +13,7 @@ feature 'Delete answer', %q{
   scenario 'Authenticated user deletes his answer', js: true do
     sign_in(author)
     visit question_path(question)
-    click_on 'Delete'
+    click_on 'Delete answer'
 
     expect(page).not_to have_content answer.body
   end
@@ -22,12 +22,12 @@ feature 'Delete answer', %q{
     sign_in(non_author)
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete'
+    expect(page).to_not have_content 'Delete answer'
   end
 
   scenario 'Non-authenticated user deletes someone else answer', js: true do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete'
+    expect(page).to_not have_content 'Delete answer'
   end
 end

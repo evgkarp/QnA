@@ -1,23 +1,42 @@
-div id= 'question-id-#{question.id}'
-  p= link_to "#{question.title}", question_path(question)
+.row
+  .col
+    h2= question.title
+hr
 
+.row
+  .col
+    = question.body
+
+.row
+  .col
+    = render 'common/attachments', resource: question
+
+.row
   - if current_user&.author_of?(question)
-    p= link_to "Edit", '', class: 'edit-question-link', data: { question_id: question.id }
+    div class="col col-lg-2"
+      = button_to "Edit question", '', class: 'edit-question-link', data: { question_id: question.id }
 
     = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
-      class: 'edit-question' } do |f|
+      class: 'edit-question form-inline' } do |f|
 
       = render 'common/errors', resource: question
+      .row
+        .col
+          = f.label :title
+          .question-errors
+          = f.text_field :title, class: "form-control"
 
-      = f.label :title
-      .question-errors
-      = f.text_field :title
+      .row
+        .col
+          = f.label :body
+          = f.text_area :body, class: "form-control"
+      .row
+        .col
+          = render 'common/file_fields', f: f
 
-      = f.label :body
-      = f.text_area :body
-      = render 'common/file_fields', f: f
-      = render 'common/attachments', resource: question, edit: true
+      .row
+        .col
+          = f.submit 'Save'
 
-      = f.submit 'Save'
-
-    p= link_to "Delete", question, remote: true, method: :delete, data: { confirm: 'Are you sure?' }
+    div class="col col-lg-2"
+      = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }

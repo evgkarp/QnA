@@ -3,7 +3,11 @@
     $('.answer-errors').html('<%= j message %>');
   <% end %>
 <% else %>
-  $('.answers').html('<%= j render @question.answers.ordered_by_best %>');
+  <% if remotipart_submitted? %>
+    $('#answer-id-<%= @answer.id %>').html('<%= j "#{render @question.answers.ordered_by_best}" %>');
+  <% else %>
+    $('#answer-id-<%= @answer.id %>').html('<%= j render @question.answers.ordered_by_best %>');
+  <% end %>
   $('.edit-answer-link').click(function(e) {
     e.preventDefault();
     $(this).hide();

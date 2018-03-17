@@ -44,7 +44,7 @@ feature 'Add files to answer', %q{
       answer
       visit question_path(question)
       within "#answer-id-#{answer.id}" do
-        click_on 'Edit'
+        click_on 'Edit answer'
       end
     end
 
