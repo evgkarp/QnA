@@ -1,14 +1,13 @@
-.question
-  = render @question
+= render @question
 
-div class= "row"
+.row
   .col
     h4 Answers:
     ul.answers
       = render @question.answers.ordered_by_best
 
 .row
-  div class="col col-lg-3"
+  .col.col-lg-3
     = form_for [@question, @answer], remote: true, html: { class: 'form-inline' } do |f|
 
       .row

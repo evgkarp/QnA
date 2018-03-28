@@ -242,4 +242,53 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote_for' do
+    sign_in_user
+
+    it "increases rating of other user's answer" do
+      expect {
+        post :vote_for, params: { question_id: question, id: second_answer, format: :js }
+        }.to change(second_answer, :rating).by(1)
+    end
+
+    it "does not change rating of current user's answer" do
+      expect {
+        post :vote_for, params: { question_id: question, id: answer, format: :js }
+        }.to_not change(second_answer, :rating)
+    end
+  end
+
+  describe 'POST #vote_against' do
+    sign_in_user
+
+    it "decreases rating of other user's answer" do
+      expect {
+        post :vote_against, params: { question_id: question, id: second_answer, format: :js }
+        }.to change(second_answer, :rating).by(-1)
+    end
+
+    it "does not change rating of current user's answer" do
+      expect {
+        post :vote_against, params: { question_id: question, id: answer, format: :js }
+        }.to_not change(second_answer, :rating)
+    end
+  end
+
+  describe 'POST #reset_vote' do
+    sign_in_user
+    before {  post :vote_for, params: { question_id: question, id: second_answer } }
+
+    it "changes rating of other user's answer to 0" do
+      expect {
+        post :reset_vote, params: { question_id: question, id: second_answer, format: :js }
+        }.to change(second_answer, :rating).by(-1)
+    end
+
+    it "does not change rating of current user's answer" do
+      expect {
+        post :reset_vote, params: { question_id: question, id: answer, format: :js }
+        }.to_not change(second_answer, :rating)
+    end
+  end
 end

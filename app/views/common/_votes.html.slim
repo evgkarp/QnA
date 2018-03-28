@@ -1,0 +1,20 @@
+.vote
+  - if user_signed_in? && !current_user.author_of?(resource)
+    .row
+      .col.col-lg-1
+        = button_to '+', { remote: true, data: { type: :json } },
+        { class: 'vote-for ' "#{'hide' if resource.has_vote?(current_user)}" }
+    .row
+      .col.col-lg-1.rating
+        = resource.rating
+    .row
+      .col.col-lg-1
+        = button_to '-', { remote: true, data: { type: :json } },
+        { class: 'vote-against ' "#{'hide' if resource.has_vote?(current_user)}" }
+    .row
+      .col.col-lg-1
+        = button_to 'Reset Vote', { remote: true, data: { type: :json } }, class: 'reset-vote'
+  - else
+    .row
+      .col.col-lg-1.rating
+        = resource.rating

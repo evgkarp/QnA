@@ -1,10 +1,12 @@
-li id= 'answer-id-#{answer.id}'
+li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
   .row
-    div class=(answer.best_answer ? 'best-answer col col-lg-9' : 'col col-lg-9')
+    .col.col-lg-2
+      = render 'common/votes', resource: answer
+    div class=(answer.best_answer ? 'best-answer col col-lg-6' : 'col col-lg-6')
       = "#{answer.body}"
 
     - if current_user&.author_of?(@question)
-    div class="col col-lg-3"
+    .col.col-lg-3
       = form_for [@question, answer], url: make_best_question_answer_path(@question, answer), remote: true do |f|
 
         = f.check_box('best_answer', {}, :true, :false)
@@ -17,7 +19,7 @@ li id= 'answer-id-#{answer.id}'
 
   .row
     - if current_user&.author_of?(answer)
-      div class="col col-lg-2"
+      .col.col-lg-2
         = button_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
       = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}",
@@ -36,7 +38,7 @@ li id= 'answer-id-#{answer.id}'
           .col
             = f.submit 'Save'
 
-      div class="col col-lg-2"
+      .col.col-lg-2
         = button_to 'Delete answer', [@question, answer], remote: true, method: :delete,
         data: { confirm: 'Are you sure?' }
 
