@@ -1,42 +1,44 @@
-.row
-  .col
-    h2= question.title
-hr
+.question data-id="#{question.id}"
+  .row
+    .col
+      h2= question.title
+  hr
+  .row
+    .col.col-lg-2
+      = render 'common/votes', resource: question
+    .col
+      = question.body
 
-.row
-  .col
-    = question.body
+  .row
+    .col
+      = render 'common/attachments', resource: question
 
-.row
-  .col
-    = render 'common/attachments', resource: question
+  .row
+    - if current_user&.author_of?(question)
+      .col.col-lg-2
+        = button_to "Edit question", '', class: 'edit-question-link', data: { question_id: question.id }
 
-.row
-  - if current_user&.author_of?(question)
-    div class="col col-lg-2"
-      = button_to "Edit question", '', class: 'edit-question-link', data: { question_id: question.id }
+      = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
+        class: 'edit-question form-inline' } do |f|
 
-    = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
-      class: 'edit-question form-inline' } do |f|
+        = render 'common/errors', resource: question
+        .row
+          .col
+            = f.label :title
+            .question-errors
+            = f.text_field :title, class: "form-control"
 
-      = render 'common/errors', resource: question
-      .row
-        .col
-          = f.label :title
-          .question-errors
-          = f.text_field :title, class: "form-control"
+        .row
+          .col
+            = f.label :body
+            = f.text_area :body, class: "form-control"
+        .row
+          .col
+            = render 'common/file_fields', f: f
 
-      .row
-        .col
-          = f.label :body
-          = f.text_area :body, class: "form-control"
-      .row
-        .col
-          = render 'common/file_fields', f: f
+        .row
+          .col
+            = f.submit 'Save'
 
-      .row
-        .col
-          = f.submit 'Save'
-
-    div class="col col-lg-2"
-      = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }
+      .col.col-lg-2
+        = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }

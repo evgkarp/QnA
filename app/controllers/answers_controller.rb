@@ -1,4 +1,8 @@
 class AnswersController < ApplicationController
+  include Voted
+
+  respond_to :html, :json, :js
+
   before_action :authenticate_user!
   before_action :set_answer, only: %i[update destroy make_best]
   before_action :set_question, only: [:create]

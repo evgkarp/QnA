@@ -1,4 +1,8 @@
 class QuestionsController < ApplicationController
+  include Voted
+
+  respond_to :html, :json, :js
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show update destroy]
 

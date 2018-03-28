@@ -149,4 +149,53 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :update
     end
   end
+
+  describe 'POST #vote_for' do
+    sign_in_user
+
+    it "increases rating of other user's question" do
+      expect {
+        post :vote_for, params: { id: second_question, format: :js }
+        }.to change(second_question, :rating).by(1)
+    end
+
+    it "does not change rating of current user's question" do
+      expect {
+        post :vote_for, params: { id: question, format: :js }
+        }.to_not change(second_question, :rating)
+    end
+  end
+
+  describe 'POST #vote_against' do
+    sign_in_user
+
+    it "decreases rating of other user's question" do
+      expect {
+        post :vote_against, params: { id: second_question, format: :js }
+        }.to change(second_question, :rating).by(-1)
+    end
+
+    it "does not change rating of current user's question" do
+      expect {
+        post :vote_against, params: { id: question, format: :js }
+        }.to_not change(second_question, :rating)
+    end
+  end
+
+  describe 'POST #reset_vote' do
+    sign_in_user
+    before {  post :vote_for, params: { id: second_question } }
+
+    it "changes rating of other user's question to 0" do
+      expect {
+        post :reset_vote, params: { id: second_question, format: :js }
+        }.to change(second_question, :rating).by(-1)
+    end
+
+    it "does not change rating of current user's question" do
+      expect {
+        post :reset_vote, params: { id: question, format: :js }
+        }.to_not change(second_question, :rating)
+    end
+  end
 end
