@@ -6,21 +6,21 @@ module Voted
   end
 
   def vote_for
-    unless current_user.author_of?(@item) || @item.has_vote?(current_user)
+    if !current_user.author_of?(@item) && !@item.has_vote?(current_user)
       @item.vote_for(current_user)
       render json: { rating: @item.rating }
     end
   end
 
   def vote_against
-    unless current_user.author_of?(@item) || @item.has_vote?(current_user)
+    if !current_user.author_of?(@item) && !@item.has_vote?(current_user)
       @item.vote_against(current_user)
       render json: { rating: @item.rating }
     end
   end
 
   def reset_vote
-    unless current_user.author_of?(@item) || !@item.has_vote?(current_user)
+    if !current_user.author_of?(@item) && @item.has_vote?(current_user)
       @item.reset_vote(current_user)
       render json: { rating: @item.rating }
     end
