@@ -35,3 +35,11 @@ $ ->
       $('.question').find('.rating').text(data.rating)
     $('.question').find('.vote-for').show()
     $('.question').find('.vote-against').show()
+
+  App.cable.subscriptions.create('QuestionsChannel', {
+    connected: ->
+      @perform 'follow',
+
+    received: (data) ->
+      $('.questions').append data
+  })
