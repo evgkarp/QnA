@@ -32,6 +32,8 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'bootstrap', '~> 4.0.0'
+gem 'skim'
+gem 'gon'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
