@@ -36,4 +36,32 @@ feature 'Create answer', %q{
 
     expect(page).to have_content "Body can't be blank"
   end
+
+  context "mulitple sessions", js: true do
+    scenario "answer appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your Answer', with: 'TestContent'
+        click_on 'Post Your Answer'
+
+        within '.answers' do
+          expect(page).to have_content 'TestContent'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'TestContent'
+        end
+      end
+    end
+  end
 end
