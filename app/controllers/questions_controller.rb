@@ -16,6 +16,9 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.attachments.build
+    gon.is_user_signed_in = user_signed_in?
+    gon.current_user_id = current_user&.id
+    gon.question_user_id = @question.user.id
   end
 
   def new

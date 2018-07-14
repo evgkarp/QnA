@@ -6,12 +6,12 @@ li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
       = "#{answer.body}"
 
     - if current_user&.author_of?(@question)
-    .col.col-lg-3
-      = form_for [@question, answer], url: make_best_question_answer_path(@question, answer), remote: true do |f|
+      .col.col-lg-3
+        = form_for [@question, answer], url: make_best_question_answer_path(@question, answer), remote: true do |f|
 
-        = f.check_box('best_answer', {}, :true, :false)
-        = f.label :best_answer
-        = f.submit 'Choice'
+          = f.check_box('best_answer', {}, :true, :false)
+          = f.label :best_answer
+          = f.submit 'Choice'
 
   .row
     .col

@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: %i[update destroy make_best]
   before_action :set_question, only: [:create]
 
+  after_action :publish_answer, only: [:create]
+
   def create
     @answer = current_user.answers.build(answer_params)
     @answer.question = @question
@@ -29,6 +31,18 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+    attachments = @answer.attachments.map do |attach|
+      { id: attach.id, filename: attach.file.filename, url: attach.file.url }
+    end
+    data = @answer.as_json(include: :attachments).merge(answer: @answer,
+                                                        has_vote: @answer.has_vote?(current_user),
+                                                        rating: @answer.rating)
+
+    ActionCable.server.broadcast("questions/#{@question.id}", data: data)
+  end
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: %i[file id _destroy])

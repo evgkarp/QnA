@@ -38,3 +38,16 @@ $ ->
       $('#answer-id-' + answerId).find('.rating').text(data.rating)
     $('#answer-id-' + answerId).find('.vote-for').show()
     $('#answer-id-' + answerId).find('.vote-against').show()
+
+  App.cable.subscriptions.create('AnswersChannel', {
+    connected: ->
+      questionId = $('.question').data('id')
+      if questionId
+        @perform 'follow', id: questionId
+    ,
+
+    received: (data) ->
+      current_user_id = gon.current_user_id
+      if current_user_id != data.data.user_id
+        $('ul.answers').append(JST["templates/answer"](data))
+  })
