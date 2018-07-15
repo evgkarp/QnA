@@ -42,3 +42,19 @@
 
       .col.col-lg-2
         = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }
+
+  .row
+    .col
+      = link_to 'add a comment'
+
+      / = form_for @comment, remote: true, html: { class: 'form-inline' } do |f|
+
+      /   .row
+      /     .col
+      /       = f.label :body, 'Your Comment'
+      /       .answer-errors
+      /       = f.text_area :body, class: "form-control"
+
+      /   .row
+      /     .col
+      /       = f.submit 'Post Your Comment'

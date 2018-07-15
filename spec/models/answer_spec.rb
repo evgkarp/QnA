@@ -9,6 +9,7 @@ RSpec.describe Answer, type: :model do
   it { should have_db_column(:best_answer) }
   it { should have_many(:attachments).dependent(:destroy) }
   it { should accept_nested_attributes_for :attachments }
+  it { should have_many(:comments).dependent(:destroy) }
 
   describe 'votable' do
     let(:user) { @user || create(:user) }

@@ -56,4 +56,4 @@ li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
         ul
           - attachments.forEach (a) ->
             li id= 'attachment-id-#{a.id}'
-              a href="#{a.file.url}" #{a.file.identifier}
+              a href="#{a.file.url}" #{a.file.file.filename}
