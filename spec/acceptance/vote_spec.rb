@@ -6,7 +6,7 @@ feature 'Vote', %q{
   I want to be able to vote for questions and answers
   } do
 
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given(:author) { create(:user) }
   given!(:question) { create(:question, user: author) }
   given!(:answer) {create(:answer, question: question, user: author)}
@@ -20,7 +20,7 @@ feature 'Vote', %q{
     end
   end
 
-  describe 'Non-author' do
+  describe 'Author' do
     background do
       sign_in(author)
       visit question_path(question)

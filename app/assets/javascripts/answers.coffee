@@ -13,7 +13,7 @@ $ ->
     e.preventDefault()
     questionId = $('.question').data('id')
     answerId = $(this).closest('li').data('id')
-    $.post('/questions/' + questionId + '/answers/' + answerId + '/vote_for')
+    $.post('/answers/' + answerId + '/vote_for')
     .then (data) ->
       $('#answer-id-' + answerId).find('.rating').text(data.rating)
     $('#answer-id-' + answerId).find('.vote-for').hide()
@@ -23,7 +23,7 @@ $ ->
     e.preventDefault()
     questionId = $('.question').data('id')
     answerId = $(this).closest('li').data('id')
-    $.post('/questions/' + questionId + '/answers/' + answerId + '/vote_against')
+    $.post('/answers/' + answerId + '/vote_against')
     .then (data) ->
       $('#answer-id-' + answerId).find('.rating').text(data.rating)
     $('#answer-id-' + answerId).find('.vote-for').hide()
@@ -33,7 +33,7 @@ $ ->
     e.preventDefault()
     questionId = $('.question').data('id')
     answerId = $(this).closest('li').data('id')
-    $.post('/questions/' + questionId + '/answers/' + answerId + '/reset_vote')
+    $.post('/answers/' + answerId + '/reset_vote')
     .then (data) ->
       $('#answer-id-' + answerId).find('.rating').text(data.rating)
     $('#answer-id-' + answerId).find('.vote-for').show()

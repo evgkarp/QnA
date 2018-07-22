@@ -9,8 +9,12 @@ Rails.application.routes.draw do
     post :reset_vote, on: :member
   end
 
-  resources :questions, concerns: :votes do
-    resources :answers, only: %i[create update destroy], concerns: :votes do
+  concern :comments do
+    resources :comments,  only: [:create]
+  end
+
+  resources :questions, shallow: true, concerns: [:votes, :comments] do
+    resources :answers, only: %i[create update destroy], concerns: [:votes, :comments] do
       patch :make_best, on: :member
     end
   end
