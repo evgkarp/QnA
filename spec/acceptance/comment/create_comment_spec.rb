@@ -18,7 +18,9 @@ feature 'Create comment', %q{
       fill_in 'Your Comment', with: 'TestComment'
       click_on 'Post Your Comment'
 
-      expect(page).to have_content 'TestComment'
+      within '.comments-list' do
+        expect(page).to have_content 'TestComment'
+      end
     end
   end
 
@@ -41,5 +43,38 @@ feature 'Create comment', %q{
     visit question_path(question)
 
     expect(page).to_not have_link 'add a comment'
+  end
+
+  context "mulitple sessions", js: true do
+    scenario "comment appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within '.question' do
+          click_on 'add a comment'
+          fill_in 'Your Comment', with: 'TestComment'
+          click_on 'Post Your Comment'
+
+          within '.comments-list' do
+            expect(page).to have_content 'TestComment'
+          end
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.question' do
+          within '.comments-list' do
+            expect(page).to have_content 'TestComment'
+          end
+        end
+      end
+    end
   end
 end

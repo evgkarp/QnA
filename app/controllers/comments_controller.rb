@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable
 
-  # after_action :publish_comment
+  after_action :publish_comment
 
   def create
     @comment = @commentable.comments.new(comment_params)
@@ -16,16 +16,18 @@ class CommentsController < ApplicationController
 
   private
 
-  # def publish_question
-  #   return if @question.errors.any?
-  #   ActionCable.server.broadcast(
-  #     'questions',
-  #     ApplicationController.render(
-  #       partial: 'common/questions_list',
-  #       locals: { question: @question }
-  #     )
-  #   )
-  # end
+  def publish_comment
+    return if @comment.errors.any?
+
+    data = {
+      commentable_id: @commentable.id,
+      commentable_type: @comment.commentable_type.underscore,
+      comment: @comment
+    }
+
+    ActionCable.server.broadcast("comments_#{@comment.commentable_type == 'Question' ? @commentable.id : @commentable.question_id}",
+     data)
+  end
 
   def set_commentable
     @commentable = Question.find(params[:question_id]) if (params[:question_id]).present?
