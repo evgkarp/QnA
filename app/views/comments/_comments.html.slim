@@ -1,0 +1,24 @@
+.row
+  .col
+    p Comments:
+    ul.comments-list
+      - resource.comments.each do |c|
+        li
+          = c.body
+
+- if user_signed_in?
+  .row
+    .col.col-lg-3
+      = link_to 'add a comment', '', class: 'add-comment-link'
+
+      = form_for [resource, resource.comments.build], remote: true, data: { type: :json }, html: {class: 'add-comment form-inline' } do |f|
+
+        .row
+          .col
+            = f.label :body, 'Your Comment'
+            .comment-errors
+            = f.text_area :body, class: "form-control"
+
+        .row
+          .col
+            = f.submit 'Post Your Comment'
