@@ -27,15 +27,18 @@ $ ->
 
     return false
 
-  # App.cable.subscriptions.create('AnswersChannel', {
-  #   connected: ->
-  #     questionId = $('.question').data('id')
-  #     if questionId
-  #       @perform 'follow', id: questionId
-  #   ,
+  App.cable.subscriptions.create('CommentsChannel', {
+    connected: ->
+      questionId = $('.question').data('id')
+      if questionId
+        @perform 'follow', id: questionId
+    ,
 
-  #   received: (data) ->
-  #     current_user_id = gon.current_user_id
-  #     if current_user_id != data.data.user_id
-  #       $('ul.answers').append(JST["templates/answer"](data))
-  # })
+    received: (data) ->
+      current_user_id = gon.current_user_id
+      if current_user_id != data.comment.user_id
+        if data['commentable_type'] == 'question'
+          $('.question').find('.comments-list').append(JST["templates/comment"](data))
+        else if data['commentable_type'] == 'answer'
+          $('#answer-id-' + data['commentable_id']).find('.comments-list').append(JST["templates/comment"](data))
+  })
