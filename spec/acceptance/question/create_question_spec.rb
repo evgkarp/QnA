@@ -15,7 +15,7 @@ feature 'Create question', %q{
     fill_in 'Body', with: 'text text text'
     click_on 'Create'
 
-    expect(page).to have_content 'Question successfully created.'
+    expect(page).to have_content 'Question was successfully created'
   end
 
   scenario 'Non-authenticated creates a question' do
@@ -51,7 +51,7 @@ feature 'Create question', %q{
         fill_in 'Body', with: 'text text text'
         click_on 'Create'
 
-        expect(page).to have_content 'Question successfully created.'
+        expect(page).to have_content 'Question was successfully created'
       end
 
       Capybara.using_session('guest') do

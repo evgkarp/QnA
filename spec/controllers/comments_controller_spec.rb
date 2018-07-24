@@ -17,7 +17,7 @@ RSpec.describe CommentsController, type: :controller do
           }.to change(question.comments, :count).by(1)
 
         expect { post :create, params: {
-          question_id: question, answer_id: answer, format: :js, comment: attributes_for(:comment) }
+          answer_id: answer, question_id: question, format: :js, comment: attributes_for(:comment) }
           }.to change(answer.comments, :count).by(1)
       end
 

@@ -30,8 +30,8 @@ class CommentsController < ApplicationController
   end
 
   def set_commentable
-    @commentable = Question.find(params[:question_id]) if (params[:question_id]).present?
-    @commentable = Answer.find(params[:answer_id]) if (params[:answer_id]).present?
+    @commentable = Answer.find(params[:answer_id]) if params[:answer_id]
+    @commentable ||= Question.find(params[:question_id])
   end
 
   def comment_params
