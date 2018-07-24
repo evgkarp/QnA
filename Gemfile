@@ -34,6 +34,7 @@ gem 'cocoon'
 gem 'bootstrap', '~> 4.0.0'
 gem 'skim'
 gem 'gon'
+gem 'responders', '~> 2.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

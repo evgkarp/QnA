@@ -3,6 +3,10 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :webkit
   Capybara.server = :puma
   # Capybara.default_max_wait_time = 5
+  Capybara::Webkit.configure do |config|
+    config.allow_url("maxcdn.bootstrapcdn.com")
+  end
+
   config.include AcceptanceMacros, type: :feature
 
   config.use_transactional_fixtures = false
