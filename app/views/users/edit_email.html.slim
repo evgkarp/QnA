@@ -1,0 +1,15 @@
+h2 Specify your actual email and confirmation instructions will be send to you
+
+= form_for @user, url: update_email_path(@user), html: {class: 'form-inline' }  do |f|
+  .row
+    .col
+      = devise_error_messages!
+
+  .row
+    .col
+      = f.label :email
+      = f.email_field :email, autofocus: true
+
+  .row
+    .col
+      = f.submit "Send me confirmation instructions"
