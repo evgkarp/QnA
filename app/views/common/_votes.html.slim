@@ -1,5 +1,5 @@
 .vote
-  - if user_signed_in? && !current_user.author_of?(resource)
+  - if can?(:vote_for, resource)
     .row
       .col.col-lg-1
         = button_to '+', { remote: true, data: { type: :json } },

@@ -5,7 +5,7 @@ li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
     div class=(answer.best_answer ? 'best-answer col col-lg-6' : 'col col-lg-6')
       = "#{answer.body}"
 
-    - if current_user&.author_of?(@question)
+    - if can?(:make_best, answer)
       .col.col-lg-3
         = form_for answer, url: make_best_answer_path(answer), remote: true do |f|
 
@@ -18,7 +18,7 @@ li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
       = render 'common/attachments', resource: answer
 
   .row
-    - if current_user&.author_of?(answer)
+    - if can?(:update, answer)
       .col.col-lg-2
         = button_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
