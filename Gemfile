@@ -38,6 +38,7 @@ gem 'responders', '~> 2.0'
 gem 'omniauth'
 gem 'omniauth-vkontakte'
 gem 'omniauth-github'
+gem 'cancancan'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

@@ -99,11 +99,6 @@ RSpec.describe AnswersController, type: :controller do
           delete :destroy, params: { id: second_answer, question_id: question, format: :js }
           }.to_not change(Answer, :count)
       end
-
-      it 'renders update template' do
-        delete :destroy, params: { id: second_answer, question_id: question, format: :js }
-        expect(response).to render_template :destroy
-      end
     end
   end
 
@@ -158,11 +153,6 @@ RSpec.describe AnswersController, type: :controller do
         update_answer_with_invalid_attributes
         third_answer.reload
         expect(third_answer.body).to_not eq nil
-      end
-
-      it 'renders update template' do
-        update_answer_with_invalid_attributes
-        expect(response).to render_template :update
       end
     end
   end
@@ -234,11 +224,6 @@ RSpec.describe AnswersController, type: :controller do
         make_answer_best_with_invalid_attributes
         third_answer.reload
         expect(third_answer.best_answer).to eq false
-      end
-
-      it 'renders make_best template' do
-        make_answer_best_with_invalid_attributes
-        expect(response).to render_template :make_best
       end
     end
   end

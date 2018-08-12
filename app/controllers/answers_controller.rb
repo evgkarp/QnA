@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
+  authorize_resource
+
   def create
     @answer = current_user.answers.build(answer_params)
     @answer.question = @question
