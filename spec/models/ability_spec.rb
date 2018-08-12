@@ -22,10 +22,10 @@ RSpec.describe Ability, type: :model do
   describe 'user' do
     let(:user) { create(:user) }
     let(:other) { create(:user) }
-    let(:question) { create :question, user: user }
-    let(:non_author_question) { create :question, user: other }
-    let(:answer) { create :answer, user: user, question: question }
-    let(:non_author_answer) { create :answer, user: other, question: question }
+    let(:question) { create(:question, user: user) }
+    let(:non_author_question) { create(:question, user: other) }
+    let(:answer) { create(:answer, user: user, question: question) }
+    let(:non_author_answer) { create(:answer, user: other, question: question) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
