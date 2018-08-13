@@ -30,7 +30,7 @@ class Ability
       !user.author_of?(resource) && !resource.has_vote?(user)
     end
     can :reset_vote, [Question, Answer] do |resource|
-      resource.votes.where(user: user).where(votable: resource) && !user.author_of?(resource)
+      resource.votes.where(user: user) && !user.author_of?(resource)
     end
   end
 end
