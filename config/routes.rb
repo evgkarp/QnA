@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   root 'questions#index'
 
   devise_for :users, controllers: {registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks'}
@@ -6,6 +7,14 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'edit_email/:id', to: 'registrations#edit_email', as: 'edit_email'
     patch 'update_email/:id', to: 'registrations#update_email', as: 'update_email'
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+    end
   end
 
   concern :votes do
@@ -25,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
+
 
   mount ActionCable.server => '/cable'
 end
