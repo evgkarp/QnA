@@ -32,5 +32,7 @@ class Ability
     can :reset_vote, [Question, Answer] do |resource|
       resource.votes.where(user: user) && !user.author_of?(resource)
     end
+
+    can :me, User, id: user.id
   end
 end

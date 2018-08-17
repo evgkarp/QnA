@@ -39,6 +39,7 @@ gem 'omniauth'
 gem 'omniauth-vkontakte'
 gem 'omniauth-github'
 gem 'cancancan'
+gem 'doorkeeper', '4.2.6'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -63,6 +64,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'launchy'
+  gem 'json_spec'
   # gem 'poltergeist'
   # gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
