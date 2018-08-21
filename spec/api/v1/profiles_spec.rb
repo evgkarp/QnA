@@ -67,11 +67,11 @@ describe 'Profile API' do
       end
 
       it 'should show info about users list' do
-        expect(response.body).to be_json_eql(others.to_json)
+        expect(response.body).to be_json_eql(others.to_json).at_path("profiles")
       end
 
       %w(id email created_at updated_at admin).each do |attr|
-        it { expect(response.body).to be_json_eql(others.first.send(attr.to_sym).to_json).at_path("0/#{attr}") }
+        it { expect(response.body).to be_json_eql(others.first.send(attr.to_sym).to_json).at_path("profiles/0/#{attr}") }
       end
 
       %w(password encrypted_password).each do |attr|
