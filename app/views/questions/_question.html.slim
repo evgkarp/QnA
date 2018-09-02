@@ -11,6 +11,10 @@
 
   .row
     .col
+      = render 'common/subscription', question: question
+
+  .row
+    .col
       = render 'common/attachments', resource: question
 
   .row
@@ -44,3 +48,4 @@
         = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }
 
   = render 'comments/comments', resource: question
+

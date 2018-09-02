@@ -22,8 +22,8 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment]
-    can [:update, :destroy], [Question, Answer], user_id: user.id
+    can :create, [Question, Answer, Comment, Subscription]
+    can %i[update destroy], [Question, Answer], user_id: user.id
     can :destroy, Attachment, user_id: user.id
     can :make_best, Answer, question: { user_id: user.id }
     can [:vote_for, :vote_against], [Question, Answer] do |resource|
@@ -31,6 +31,9 @@ class Ability
     end
     can :reset_vote, [Question, Answer] do |resource|
       resource.votes.where(user: user) && !user.author_of?(resource)
+    end
+    can :destroy, Subscription do |subscription|
+      user.author_of?(subscription)
     end
 
     can :me, User, id: user.id

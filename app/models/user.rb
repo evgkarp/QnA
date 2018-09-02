@@ -3,13 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable,
-         omniauth_providers: [:vkontakte, :github]
+         omniauth_providers: %i[vkontakte github]
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :votes
   has_many :comments
   has_many :authorizations
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(resource)
     id == resource.user_id
@@ -33,16 +34,24 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def add_subscription(question)
+    question.subscriptions.create!(user_id: id)
+  end
+
+  def subscribed?(question)
+    question.subscriptions.exists?(user: self)
   end
 
   protected
 
   def self.set_email(auth)
-    unless auth.info[:email].blank?
-      auth.info[:email]
-    else
+    if auth.info[:email].blank?
       "#{auth.provider + auth.uid.to_s}@temporary.com"
+    else
+      auth.info[:email]
     end
   end
 end

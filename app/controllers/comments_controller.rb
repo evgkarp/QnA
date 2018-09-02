@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
     }
 
     ActionCable.server.broadcast("comments_#{@comment.commentable_type == 'Question' ? @commentable.id : @commentable.question_id}",
-     data)
+                                 data)
   end
 
   def set_commentable
