@@ -5,8 +5,11 @@ class Question < ApplicationRecord
   belongs_to :user
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   validates :title, :body, presence: true, length: { minimum: 10 }
+
+  scope :last_day, -> { where(created_at: 24.hours.ago..Time.zone.now) }
 end
