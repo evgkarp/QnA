@@ -12,4 +12,12 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true, length: { minimum: 10 }
 
   scope :last_day, -> { where(created_at: 24.hours.ago..Time.zone.now) }
+
+  after_commit :subscribe, on: :create
+
+  protected
+
+  def subscribe
+    subscriptions.create!(user: self.user)
+  end
 end

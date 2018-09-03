@@ -16,4 +16,13 @@ RSpec.describe Question, type: :model do
   let(:object_name) { :question }
 
   it_behaves_like 'Votable'
+
+  describe '#subscribe' do
+    let!(:user) { create(:user) }
+    subject { build(:question, user: user) }
+
+    it 'saves subscription for the question to db' do
+      expect{ subject.save! }.to change(Subscription, :count).by(1)
+    end
+  end
 end

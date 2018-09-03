@@ -7,8 +7,7 @@ feature 'Subscriptions', %q{
 } do
   given(:author) { create(:user) }
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: author) }
-  given!(:subscription) { create(:subscription, question: question, user: author) }
+  given!(:question) { create(:question, user: author) }
 
   describe 'Non-authenticated user' do
     before { visit question_path(question) }
