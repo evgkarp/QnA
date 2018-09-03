@@ -38,11 +38,11 @@ class User < ApplicationRecord
   end
 
   def add_subscription(question)
-    question.subscriptions.create!(user_id: id)
+    subscriptions.create!(question: question)
   end
 
   def subscribed?(question)
-    question.subscriptions.exists?(user: self)
+    subscriptions.exists?(question: question)
   end
 
   protected

@@ -98,7 +98,7 @@ RSpec.describe User do
   describe '#add_subscription' do
     it 'subscribes the user to the question' do
       other_user.add_subscription(question)
-      expect(other_user.subscriptions.first).to eq question.subscriptions.first
+      expect(other_user.subscriptions.last).to eq question.subscriptions.last
     end
   end
 

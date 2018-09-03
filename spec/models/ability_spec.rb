@@ -26,7 +26,6 @@ RSpec.describe Ability, type: :model do
     let(:non_author_question) { create(:question, user: other) }
     let(:answer) { create(:answer, user: user, question: question) }
     let(:non_author_answer) { create(:answer, user: other, question: question) }
-    let(:subscription) { create :subscription, user: user, question: question}
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -73,6 +72,6 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :destroy, Attachment, user: user }
 
     it { should be_able_to :create, Subscription }
-    it { should be_able_to :destroy, subscription, user: other }
+    it { should be_able_to :destroy, question.subscriptions.first, user: user }
   end
 end
