@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
 
   def destroy
     @question = @subscription.question
-    @subscription.destroy if current_user.author_of?(@subscription)
+    @subscription.destroy
     respond_with(@subscription, template: 'common/subscribe')
   end
 
