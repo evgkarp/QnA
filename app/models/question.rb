@@ -6,6 +6,7 @@ class Question < ApplicationRecord
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
@@ -18,6 +19,6 @@ class Question < ApplicationRecord
   protected
 
   def subscribe
-    subscriptions.create!(user: self.user)
+    subscriptions.create!(user: user)
   end
 end

@@ -65,7 +65,7 @@ class QuestionsController < ApplicationController
   end
 
   def set_subscription
-    @subscription = Subscription.where(user_id: current_user.id, question_id: @question.id) if user_signed_in?
+    @subscription = Subscription.where(user: current_user, question: @question).first if user_signed_in?
   end
 
   def question_params
