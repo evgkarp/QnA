@@ -24,5 +24,15 @@ RSpec.describe Question, type: :model do
     it 'saves subscription for the question to db' do
       expect{ subject.save! }.to change(Subscription, :count).by(1)
     end
+
+    it 'saves subscription to db with given question' do
+      subject.save!
+      expect(Subscription.last.question).to eq subject
+    end
+
+    it 'saves subscription to db with given user' do
+      subject.save!
+      expect(Subscription.last.user).to eq user
+    end
   end
 end

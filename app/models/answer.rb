@@ -12,7 +12,7 @@ class Answer < ApplicationRecord
 
   scope :ordered_by_best, -> { order(best_answer: :desc) }
 
-  after_commit :new_answer_notification, on: :create
+  after_save :new_answer_notification, on: :create
 
   def set_best
     transaction do
