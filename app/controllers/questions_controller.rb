@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show update destroy]
   before_action :build_answer, only: :show
+  before_action :set_subscription, only: :show
 
   after_action :publish_question, only: [:create]
 
@@ -63,6 +64,10 @@ class QuestionsController < ApplicationController
   def build_answer
     @answer = @question.answers.build
     @answer.attachments.build
+  end
+
+  def set_subscription
+    @subscription = Subscription.where(user: current_user, question: @question).first if user_signed_in?
   end
 
   def question_params

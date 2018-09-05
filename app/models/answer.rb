@@ -12,10 +12,18 @@ class Answer < ApplicationRecord
 
   scope :ordered_by_best, -> { order(best_answer: :desc) }
 
+  after_save :new_answer_notification, on: :create
+
   def set_best
     transaction do
       question.answers.update_all(best_answer: false)
       update!(best_answer: true)
     end
+  end
+
+  protected
+
+  def new_answer_notification
+    NewAnswerJob.perform_later(self)
   end
 end

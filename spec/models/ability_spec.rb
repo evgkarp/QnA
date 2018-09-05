@@ -73,6 +73,6 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :destroy, Attachment, user: user }
 
     it { should be_able_to :create, Subscription }
-    it { should be_able_to :destroy, subscription, user: other }
+    it { should be_able_to :destroy, question.subscriptions.first, user: user }
   end
 end

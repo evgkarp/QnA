@@ -14,4 +14,15 @@ RSpec.describe Answer, type: :model do
   let(:object_name) { :answer }
 
   it_behaves_like 'Votable'
+
+  describe '#new_answer_notification' do
+    let!(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    subject { build(:answer, user: user, question: question) }
+
+    it 'notifies about new answer' do
+      expect(NewAnswerJob).to receive(:perform_later).with(subject)
+      subject.save!
+    end
+  end
 end
