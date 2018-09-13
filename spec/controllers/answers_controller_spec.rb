@@ -15,7 +15,8 @@ RSpec.describe AnswersController, type: :controller do
 
       subject(:create_answer) do
         post :create, params: {
-          question_id: question, answer: attributes_for(:answer), format: :js
+          question_id: question,
+          answer: attributes_for(:answer), format: :js
         }
       end
 

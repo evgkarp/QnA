@@ -17,9 +17,9 @@ feature 'Search', %q{
       end
     end
 
-    scenario 'searches and sees result page', js: true do
+    scenario 'searches and sees result page', js: true, sphinx: true do
       ThinkingSphinx::Test.run do
-        save_and_open_page
+        # save_and_open_page
         ThinkingSphinx::Test.index
         visit root_path
         fill_in 'query', with: 'Nothing'

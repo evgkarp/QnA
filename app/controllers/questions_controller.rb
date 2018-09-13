@@ -29,8 +29,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.build(question_params)
-    @question.subscriptions.create!(user_id: current_user.id) if @question.save
+    @question = current_user.questions.create(question_params)
     respond_with @question
   end
 

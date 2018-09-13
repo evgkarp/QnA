@@ -48,7 +48,7 @@ gem 'sinatra', '>= 1.3.0', require: nil
 gem 'sidetiq'
 gem 'whenever', require: false
 gem 'mysql2'
-gem 'thinking-sphinx'
+gem 'thinking-sphinx', '3.4.2'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
