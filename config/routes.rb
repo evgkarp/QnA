@@ -46,5 +46,7 @@ Rails.application.routes.draw do
 
   resources :subscriptions, only: %i[create destroy]
 
+  get '/search' => 'search#search'
+
   mount ActionCable.server => '/cable'
 end
