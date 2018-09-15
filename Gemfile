@@ -59,7 +59,6 @@ group :development, :test do
   gem 'capybara-email'
   gem 'dotenv'
   gem 'dotenv-rails'
-  gem 'dotenv-deployment', require: 'dotenv/deployment'
 end
 
 group :development do
