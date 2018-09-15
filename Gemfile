@@ -58,6 +58,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara-email'
   gem 'dotenv'
+  gem 'dotenv-rails'
   gem 'dotenv-deployment', require: 'dotenv/deployment'
 end
 
