@@ -11,7 +11,6 @@ gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
 
 gem 'coffee-rails', '~> 4.2'
 # gem 'turbolinks', '~> 5'
@@ -47,6 +46,7 @@ gem 'sidetiq'
 gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx', '3.4.2'
+gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
