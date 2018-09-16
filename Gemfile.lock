@@ -420,7 +420,6 @@ DEPENDENCIES
   database_cleaner
   devise
   doorkeeper (= 4.2.6)
-  dotenv
   dotenv-rails
   factory_bot_rails
   gon

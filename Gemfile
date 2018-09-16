@@ -49,6 +49,7 @@ gem 'thinking-sphinx', '3.4.2'
 gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara', '~> 2.13'
   gem 'rspec-rails'
@@ -57,8 +58,6 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'capybara-email'
-  gem 'dotenv'
-  gem 'dotenv-rails'
 end
 
 group :development do
