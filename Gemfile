@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 
+gem 'dotenv-rails'
 gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
@@ -49,7 +50,6 @@ gem 'thinking-sphinx', '3.4.2'
 gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
-  gem 'dotenv-rails'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara', '~> 2.13'
   gem 'rspec-rails'
