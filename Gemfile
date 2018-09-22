@@ -49,6 +49,7 @@ gem 'mysql2'
 gem 'thinking-sphinx', '3.3.0'
 gem 'mini_racer', platforms: :ruby
 gem 'unicorn'
+gem 'redis-rails'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

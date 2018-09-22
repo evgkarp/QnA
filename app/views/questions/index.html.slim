@@ -1,5 +1,6 @@
 .questions
-  - @questions.each do |question|
-    .row id='question-id-#{question.id}'
-      .col
-        h4= link_to "#{question.title}", question_path(question)
+  -cache @questions do
+    - @questions.each do |question|
+      .row id='question-id-#{question.id}'
+        .col
+          h4= link_to "#{question.title}", question_path(question)

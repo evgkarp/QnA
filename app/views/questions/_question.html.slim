@@ -1,50 +1,51 @@
-.question data-id="#{question.id}"
-  .row
-    .col
-      h2= question.title
-  hr
-  .row
-    .col.col-lg-2
-      = render 'common/votes', resource: question
-    .col
-      = question.body
-
-    .col
-      = render 'common/subscription', question: question
-
-  .row
-    .col
-      = render 'common/attachments', resource: question
-
-  .row
-    - if can?(:update, question)
+- cache question do
+  .question data-id="#{question.id}"
+    .row
+      .col
+        h2= question.title
+    hr
+    .row
       .col.col-lg-2
-        = button_to "Edit question", '', class: 'edit-question-link', data: { question_id: question.id }
+        = render 'common/votes', resource: question
+      .col
+        = question.body
 
-      = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
-        class: 'edit-question form-inline' } do |f|
+      .col
+        = render 'common/subscription', question: question
 
-        = render 'common/errors', resource: question
-        .row
-          .col
-            = f.label :title
-            .question-errors
-            = f.text_field :title, class: "form-control"
+    .row
+      .col
+        = render 'common/attachments', resource: question
 
-        .row
-          .col
-            = f.label :body
-            = f.text_area :body, class: "form-control"
-        .row
-          .col
-            = render 'common/file_fields', f: f
+    .row
+      - if can?(:update, question)
+        .col.col-lg-2
+          = button_to "Edit question", '', class: 'edit-question-link', data: { question_id: question.id }
 
-        .row
-          .col
-            = f.submit 'Save'
+        = form_for question, remote: true, html: { id: "edit-question-#{question.id}",
+          class: 'edit-question form-inline' } do |f|
 
-      .col.col-lg-2
-        = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }
+          = render 'common/errors', resource: question
+          .row
+            .col
+              = f.label :title
+              .question-errors
+              = f.text_field :title, class: "form-control"
 
-  = render 'comments/comments', resource: question
+          .row
+            .col
+              = f.label :body
+              = f.text_area :body, class: "form-control"
+          .row
+            .col
+              = render 'common/file_fields', f: f
+
+          .row
+            .col
+              = f.submit 'Save'
+
+        .col.col-lg-2
+          = button_to "Delete question", question, method: :delete, data: { confirm: 'Are you sure?' }
+
+    = render 'comments/comments', resource: question
 

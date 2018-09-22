@@ -1,45 +1,46 @@
-li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
-  .row
-    .col.col-lg-2
-      = render 'common/votes', resource: answer
-    div class=(answer.best_answer ? 'best-answer col col-lg-6' : 'col col-lg-6')
-      = "#{answer.body}"
-
-    - if can?(:make_best, answer)
-      .col.col-lg-3
-        = form_for answer, url: make_best_answer_path(answer), remote: true do |f|
-
-          = f.check_box('best_answer', {}, :true, :false)
-          = f.label :best_answer
-          = f.submit 'Choice'
-
-  .row
-    .col
-      = render 'common/attachments', resource: answer
-
-  .row
-    - if can?(:update, answer)
+- cache answer do
+  li id= 'answer-id-#{answer.id}' data-id="#{answer.id}"
+    .row
       .col.col-lg-2
-        = button_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        = render 'common/votes', resource: answer
+      div class=(answer.best_answer ? 'best-answer col col-lg-6' : 'col col-lg-6')
+        = "#{answer.body}"
 
-      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}",
-        class: 'edit-answer form-inline' } do |f|
+      - if can?(:make_best, answer)
+        .col.col-lg-3
+          = form_for answer, url: make_best_answer_path(answer), remote: true do |f|
 
-        .row
-          .col
-            = f.label :body, 'Your Answer'
-            .answer-errors
-            = f.text_area :body, class: "form-control"
-        .row
-          .col
-            = render 'common/file_fields', f: f
+            = f.check_box('best_answer', {}, :true, :false)
+            = f.label :best_answer
+            = f.submit 'Choice'
 
-        .row
-          .col
-            = f.submit 'Save'
+    .row
+      .col
+        = render 'common/attachments', resource: answer
 
-      .col.col-lg-2
-        = button_to 'Delete answer', answer, remote: true, method: :delete,
-        data: { confirm: 'Are you sure?' }
+    .row
+      - if can?(:update, answer)
+        .col.col-lg-2
+          = button_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-  = render 'comments/comments', resource: answer
+        = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}",
+          class: 'edit-answer form-inline' } do |f|
+
+          .row
+            .col
+              = f.label :body, 'Your Answer'
+              .answer-errors
+              = f.text_area :body, class: "form-control"
+          .row
+            .col
+              = render 'common/file_fields', f: f
+
+          .row
+            .col
+              = f.submit 'Save'
+
+        .col.col-lg-2
+          = button_to 'Delete answer', answer, remote: true, method: :delete,
+          data: { confirm: 'Are you sure?' }
+
+    = render 'comments/comments', resource: answer
