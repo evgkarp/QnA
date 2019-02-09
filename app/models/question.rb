@@ -14,6 +14,8 @@ class Question < ApplicationRecord
 
   scope :last_day, -> { where(created_at: 24.hours.ago..Time.zone.now) }
 
+  scope :sorted, -> { order(:created_at) }
+
   after_commit :subscribe, on: :create
 
   protected

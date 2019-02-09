@@ -4,7 +4,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   before_action :set_question, only: %i[index create]
 
   def index
-    respond_with @question.answers
+    respond_with @question.answers.sorted
   end
 
   def show

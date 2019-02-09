@@ -12,6 +12,8 @@ class Answer < ApplicationRecord
 
   scope :ordered_by_best, -> { order(best_answer: :desc) }
 
+  scope :sorted, -> { order(:created_at) }
+
   after_save :new_answer_notification, on: :create
 
   def set_best

@@ -45,7 +45,7 @@ gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'sidetiq'
 gem 'whenever', require: false
-gem 'mysql2'
+gem 'mysql2', '~> 0.5.0'
 gem 'thinking-sphinx', '3.3.0'
 gem 'mini_racer', platforms: :ruby
 gem 'unicorn'
@@ -53,9 +53,9 @@ gem 'redis-rails'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'capybara', '~> 2.13'
+  gem 'capybara', '~> 3.0'
   gem 'rspec-rails'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 4.8.2'
   gem 'rubocop'
   gem 'capybara-webkit'
   gem 'database_cleaner'
@@ -81,8 +81,8 @@ group :test do
   gem 'rails-controller-testing'
   gem 'launchy'
   gem 'json_spec'
-  # gem 'poltergeist'
-  # gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'poltergeist'
+  gem 'phantomjs', require: 'phantomjs/poltergeist'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

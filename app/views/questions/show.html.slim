@@ -1,27 +1,25 @@
-- cache @question do
-  = render @question
+= render @question
 
-  .row
-    .col
-      h4 Answers:
-      ul.answers
-        - cache @question.answers.ordered_by_best do
-          = render @question.answers.ordered_by_best
+.row
+  .col
+    h4 Answers:
+    ul.answers
+      = render @question.answers.ordered_by_best
 
-  .row
-    .col.col-lg-3
-      = form_for [@question, @answer], remote: true, html: { class: 'form-inline' } do |f|
+.row
+  .col.col-lg-3
+    = form_for [@question, @answer], remote: true, html: { class: 'form-inline' } do |f|
 
-        .row
-          .col
-            = f.label :body, 'Your Answer'
-            .answer-errors
-            = f.text_area :body, class: "form-control"
+      .row
+        .col
+          = f.label :body, 'Your Answer'
+          .answer-errors
+          = f.text_area :body, class: "form-control"
 
-        .row
-          .col
-            = render 'common/file_fields', f: f
+      .row
+        .col
+          = render 'common/file_fields', f: f
 
-        .row
-          .col
-            = f.submit 'Post Your Answer'
+      .row
+        .col
+          = f.submit 'Post Your Answer'
